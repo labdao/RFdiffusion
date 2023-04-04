@@ -4,6 +4,9 @@ FROM pytorch/pytorch:1.9.0-cuda11.1-cudnn8-devel
 # Set the working directory
 WORKDIR /app
 
+# Fetch Key
+RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub
+
 # Install wget and other required tools
 RUN apt-get update && \
     apt-get install -y wget git
