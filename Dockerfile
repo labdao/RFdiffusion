@@ -50,5 +50,8 @@ RUN cd /app/RFdiffusion/env/SE3Transformer && \
 # Untar the provided scaffold files
 RUN tar -xvf /app/RFdiffusion/examples/ppi_scaffolds_subset.tar.gz -C /app/RFdiffusion/examples
 
-# Keep the container running
+# Set env parameters
+ENV PATH /app/miniconda/envs/SE3nv/bin:$PATH
+ENV CONDA_DEFAULT_ENV $SE3nv
+
 CMD ["bash"]
