@@ -37,19 +37,18 @@ RUN mkdir models && cd models && \
     wget http://files.ipd.uw.edu/pub/RFdiffusion/f572d396fae9206628714fb2ce00f72e/Complex_beta_ckpt.pt
 
 # Create and activate the SE3nv conda environment
-COPY env/SE3nv.yml /app/env/SE3nv.yml
-RUN conda env create -f env/SE3nv.yml
+RUN conda env create -f /app/RFdiffusion/env/SE3nv.yml
 SHELL ["conda", "run", "-n", "SE3nv", "/bin/bash", "-c"]
 
 # Install SE3-Transformer and RFdiffusion
-RUN cd env/SE3Transformer && \
+RUN cd /app/RFdiffusion/env/SE3Transformer && \
     pip install --no-cache-dir -r requirements.txt && \
     python setup.py install && \
     cd ../.. && \
     pip install -e .
 
 # Untar the provided scaffold files
-RUN tar -xvf examples/ppi_scaffolds_subset.tar.gz -C examples/
+RUN tar -xvf /app/RFdiffusion/examples/ppi_scaffolds_subset.tar.gz -C examples/
 
 # Keep the container running
 CMD ["bash"]
