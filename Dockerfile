@@ -8,6 +8,15 @@ WORKDIR /app
 RUN apt-get update && \
     apt-get install -y wget git
 
+# Install miniconda
+RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py39_4.10.3-Linux-x86_64.sh && \
+    chmod +x Miniconda3-py39_4.10.3-Linux-x86_64.sh && \
+    ./Miniconda3-py39_4.10.3-Linux-x86_64.sh -b -p /app/miniconda && \
+    rm Miniconda3-py39_4.10.3-Linux-x86_64.sh
+
+# Set the path to include miniconda
+ENV PATH /app/miniconda/bin:$PATH
+
 # Clone the RFdiffusion repository
 RUN git clone https://github.com/RosettaCommons/RFdiffusion.git .
 
@@ -21,15 +30,6 @@ RUN mkdir models && cd models && \
     wget http://files.ipd.uw.edu/pub/RFdiffusion/5532d2e1f3a4738decd58b19d633b3c3/ActiveSite_ckpt.pt && \
     wget http://files.ipd.uw.edu/pub/RFdiffusion/12fc204edeae5b57713c5ad7dcb97d39/Base_epoch8_ckpt.pt && \
     wget http://files.ipd.uw.edu/pub/RFdiffusion/f572d396fae9206628714fb2ce00f72e/Complex_beta_ckpt.pt
-
-# Install miniconda
-RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py39_4.10.3-Linux-x86_64.sh && \
-    chmod +x Miniconda3-py39_4.10.3-Linux-x86_64.sh && \
-    ./Miniconda3-py39_4.10.3-Linux-x86_64.sh -b -p /app/miniconda && \
-    rm Miniconda3-py39_4.10.3-Linux-x86_64.sh
-
-# Set the path to include miniconda
-ENV PATH /app/miniconda/bin:$PATH
 
 # Create and activate the SE3nv conda environment
 COPY env/SE3nv.yml /app/env/SE3nv.yml
