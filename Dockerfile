@@ -4,12 +4,11 @@ FROM pytorch/pytorch:1.9.0-cuda11.1-cudnn8-devel
 # Set the working directory
 WORKDIR /app
 
-# Fetch Key
+# Install wget and other required tools
+RUN apt-get install -y wget git
+
 RUN wget -qO - https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub | apt-key add -
 
-# Install wget and other required tools
-RUN apt-get update && \
-    apt-get install -y wget git
 
 # Install miniconda
 RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py39_4.10.3-Linux-x86_64.sh && \
