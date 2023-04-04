@@ -48,7 +48,7 @@ RUN cd /app/RFdiffusion/env/SE3Transformer && \
     pip install -e .
 
 # Untar the provided scaffold files
-RUN tar -xvf /app/RFdiffusion/examples/ppi_scaffolds_subset.tar.gz -C examples/
+RUN tar -xvf /app/RFdiffusion/examples/ppi_scaffolds_subset.tar.gz -C /app/RFdiffusion/examples
 
 # Keep the container running
 CMD ["bash"]
