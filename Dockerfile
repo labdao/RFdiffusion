@@ -12,6 +12,9 @@ RUN rm /etc/apt/sources.list.d/nvidia-ml.list
 RUN apt-get update && \
     apt-get install -y wget git
 
+# Clone the RFdiffusion repository
+RUN git clone https://github.com/RosettaCommons/RFdiffusion.git .
+
 # Install miniconda
 RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py39_4.10.3-Linux-x86_64.sh && \
     chmod +x Miniconda3-py39_4.10.3-Linux-x86_64.sh && \
@@ -20,10 +23,6 @@ RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py39_4.10.3-Linux-x86_64
 
 # Set the path to include miniconda
 ENV PATH /app/miniconda/bin:$PATH
-
-# Clone the RFdiffusion repository
-RUN git clone https://github.com/RosettaCommons/RFdiffusion.git && \
-    cd RFdiffusion
 
 # Download the model weights
 RUN mkdir models && cd models && \
@@ -37,11 +36,11 @@ RUN mkdir models && cd models && \
     wget http://files.ipd.uw.edu/pub/RFdiffusion/f572d396fae9206628714fb2ce00f72e/Complex_beta_ckpt.pt
 
 # Create and activate the SE3nv conda environment
-RUN conda env create -f /app/RFdiffusion/env/SE3nv.yml
+RUN conda env create -f /app/env/SE3nv.yml
 SHELL ["conda", "run", "-n", "SE3nv", "/bin/bash", "-c"]
 
 # Install SE3-Transformer and RFdiffusion
-RUN cd /app/RFdiffusion/env/SE3Transformer && \
+RUN cd /app/env/SE3Transformer && \
     pip install --no-cache-dir -r requirements.txt && \
     python setup.py install && \
     cd ../.. && \
@@ -55,6 +54,6 @@ ENV PATH /app/miniconda/envs/SE3nv/bin:$PATH
 ENV CONDA_DEFAULT_ENV $SE3nv
 
 # Untar the provided scaffold files
-RUN tar -xvf /app/RFdiffusion/examples/ppi_scaffolds_subset.tar.gz -C /app/RFdiffusion/examples
+RUN tar -xvf /app/examples/ppi_scaffolds_subset.tar.gz -C /app/examples
 
 CMD ["bash"]
