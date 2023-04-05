@@ -48,12 +48,13 @@ RUN cd /app/RFdiffusion/env/SE3Transformer && \
     pip install -e .
 
 # Set env parameters
+RUN export PATH=“/app/miniconda3/bin:$PATH”
+ARG PATH /app/miniconda/bin:$PATH
+RUN echo "conda activate SE3nv" >> ~/.bashrc
 ENV PATH /app/miniconda/envs/SE3nv/bin:$PATH
 ENV CONDA_DEFAULT_ENV $SE3nv
 
 # Untar the provided scaffold files
 RUN tar -xvf /app/RFdiffusion/examples/ppi_scaffolds_subset.tar.gz -C /app/RFdiffusion/examples
-
-
 
 CMD ["bash"]
