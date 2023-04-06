@@ -49,7 +49,7 @@ RUN cd /app/env/SE3Transformer && \
 # Set env parameters
 RUN export PATH=“/app/miniconda3/bin:$PATH”
 ARG PATH /app/miniconda/bin:$PATH
-RUN echo "conda activate SE3nv" >> ~/.bashrc
+RUN echo "source activate SE3nv" >> ~/.bashrc
 ENV PATH /app/miniconda/envs/SE3nv/bin:$PATH
 ENV CONDA_DEFAULT_ENV $SE3nv
 
